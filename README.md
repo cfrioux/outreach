@@ -64,6 +64,7 @@ To do so, they'll have a database that connects genetic sequences to metabolic r
 If a genome holds one of such sequences, then we can assume the corresponding bacterium has the ability to execute the matching reaction.
 
 Alignment of sequences will be carried out by the attendees as in the picture below.
+There is a misalignment for one of the genes on a bacterial genome. Originally this is typo but it actually can be quite nice to talk about reality with misalignments that can occur because of mutations. 
 
 ![ A photo showing pieces of paper on which genetic sequences correspondind to reads are printed. Each read has an identifier. Four of the reads are assembled together using overlaps between them. This reconstructs a part of the genome, and the rest would be obtained by overlapping the remaining reads.](metagenomics_and_metabolic_modelling/pictures/genome_annotation.jpeg "Material used for genome annotation unplugged")
 
@@ -76,6 +77,10 @@ In the powerpoint, there are two slides with the sequences to be matched, which 
 ## Computing part
 
 ### (Meta)genome assembly
+
+For young attendees with no or few experience with programming, it is best to spend most of the computing part on general Python notions. Let them create a create as a string, teach them how to get prefixes and suffixes of this read, store them in variables, test the equality of the suffix of a read and the prefix of a second. They easily understand that a length of the prefix/suffix is important, and that the smaller the prefix/suffix, the less likely two reads can be assembled, it can be a random alignment. So I find useful to tech them `for` loops by iterating on the prefix/suffix length for a pair of reads and testing the equality at each iteration. 
+
+Then when these basic concepts are understood, we can talk about how we would proceed in practice, how would we build the algorithm. I usually finish by showing them the results of a "real" implementation of assembly. 
 
 A notebook is available with two approaches for assembly. I suggest working with the second where we build an overlap graph by considering suffixes of reads which are prefixes of others. We calculate all the overlaps, then we simplify the graph by only keeping for each node (read), the association to the read it has the strongest overlap with. By doing so, we end up with a new graph that gives us the order in which we need to assemble the reads to reach the full sequence.
 
