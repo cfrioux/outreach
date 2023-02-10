@@ -74,6 +74,8 @@ Once a sequence is found, the corresponding metabolic reactions can be added to 
 
 In the powerpoint, there are two slides with the sequences to be matched, which can be printed on transparent plastic sheets to ease the search.
 
+After the reconstruction, the attendees can draw their networks on a white board and we can take some time to discuss their characteristics: some compounds cannot be produced, they have to be found in the environment. Some compounds are needed by all bacteria, this could lead to competition. On the other hand, some compounds are produced by a species and can be consumed by others: this could be cooperation. Say that these are interactions we would like to capture. Define a metabolic model as the combination of a metabolic network, the environment composition, and a mathematical representation of producibility. Attendees understand rapidly that the whole set of reactants of a reaction must mbe available for the product to become available too. This is what we will model on the computer. 
+
 ## Computing part
 
 ### (Meta)genome assembly
@@ -93,8 +95,33 @@ In reality, genomes of bacteria are circular.
 
 The reconstruction of metabolic networks for the three bacteria is done in a unplugged way by looking for specific sequences within their genomes.
 
-I use Answer Set Programming, a logic paradigm that is great for knowledge representation and reasoning as it is very expressive. The metabolic networks are described as knowledge, as well as the environment composition.
+A good first step on the computer is to let the attendees visualise real size metabolic networks. [Fluxer](https://fluxer.umbc.edu/) does very well the job. Click on "complete graph" and use the "Force" layout to see the whole graph. Recon3D is the human metabolic network, but also the largest: really gives a motivation on using computers to explore the metabolism rather than doing it manually.
 
+Then starts the modelling part: how to model what a bacterium is capable of doing in an environment?
+I use Answer Set Programming, a logic paradigm that is great for knowledge representation and reasoning as it is very expressive. It ca be used [online](https://potassco.org/clingo/run/)
+A first example to understand ASP is the following: 
+
+```
+sparrow("Jack"). % knowledge
+penguin("Mary"). % knowledge
+
+bird(X) :- sparrow(X). % rule
+
+flies(X) :- bird(X), not penguin(X). % rule
+
+#show flies/1.
+```
+
+The metabolic networks are described as knowledge, as well as the environment composition. Let the attendees write the network contents as in `metabolism/metabolism_toys.lp`. Use a shared notepad for splitting the modelling between attendees.
+
+Now let the attendees model the producibility of compounds in a given environment.
+
+```
+available(X, B) :- environment(X), bacterium(B).
+available(X, B) :- product(X,R), reaction(R,B), bacterium(B), producible(Y,B):reactant(Y,R). 
+```
+
+Illustrate what can be done on a more complex model as in `metabolisù/bact_selection.lp` where we select minimal-size communities and represent metabolic exchanges.
 The Clingo solver (easily installed in a Python environment using conda or pip) can be called to solve the problem of selecting a minimal-size community of bacteria able to ensure the producibility of two metabolites: `T1` and `T2`.
 
 ## License
