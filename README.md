@@ -121,7 +121,7 @@ available(X, B) :- environment(X), bacterium(B).
 available(X, B) :- product(X,R), reaction(R,B), bacterium(B), producible(Y,B):reactant(Y,R). 
 ```
 
-Illustrate what can be done on a more complex model as in `metabolisù/bact_selection.lp` where we select minimal-size communities and represent metabolic exchanges.
+Illustrate what can be done on a more complex model as in `metabolism/bact_selection.lp` where we select minimal-size communities and represent metabolic exchanges.
 The Clingo solver (easily installed in a Python environment using conda or pip) can be called to solve the problem of selecting a minimal-size community of bacteria able to ensure the producibility of two metabolites: `T1` and `T2`.
 
 ## License
